@@ -1,19 +1,24 @@
 package main
 
 import (
+	"crypto/rand"
 	"fmt"
 	"github.com/FactomProject/factoid"
 	"github.com/FactomProject/factoid/wallet"
-	"crypto/rand"
+
+	"bufio"
+	"os"
 )
 
 func main() {
+
+	fmt.Printf("==== %-68s ====\n", "Make sure to copy down both private and pulic keys before exiting")
 
 	privatekey := make([]byte, 32)
 	_, err := rand.Read(privatekey)
 	if err == nil {
 		privAddr := factoid.NewAddress(privatekey)
-		
+
 		privHuman := factoid.ConvertFctPrivateToUserStr(privAddr)
 		fmt.Printf("New Factoid Private Key: %v\n", privHuman)
 
@@ -36,6 +41,9 @@ func main() {
 	} else {
 		fmt.Printf("error\n")
 	}
-	
 
+	fmt.Printf("==== %-68s ====\n", "Pressing Enter will exit the program. Ensure to copy down both keys")
+	// Scan for a '\n', then terminate
+	s := bufio.NewScanner(os.Stdin)
+	s.Scan()
 }
